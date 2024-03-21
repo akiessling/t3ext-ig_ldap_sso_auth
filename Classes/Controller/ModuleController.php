@@ -538,6 +538,8 @@ class ModuleController extends ActionController
 
 		if ($success) {
 			list($filter, $baseDn) = explode(',', $params['dn'], 2);
+            // subgroup patch?
+            $filter = '&(objectClass=ldapsubentry)(' . $filter . ')';
 			$attributes = Configuration::getLdapAttributes($config['groups']['mapping']);
 			$ldapGroup = $this->ldap->search($baseDn, '(' . $filter . ')', $attributes, true);
 
@@ -554,6 +556,7 @@ class ModuleController extends ActionController
 
 			if ((int)($group['uid'] ?? 0) === 0) {
 				$group = Typo3GroupRepository::add($table, $group);
+                // @todo Throw exception if group is not added (empty)
 			} else {
 				// Restore group that may have been previously deleted
 				$group['deleted'] = 0;

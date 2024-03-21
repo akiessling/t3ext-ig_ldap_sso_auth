@@ -51,7 +51,7 @@ class LdapUtility
     /**
      * Only used if pagination fails to be initialized
      */
-    const MAX_ENTRIES = 500;
+    const MAX_ENTRIES = 10000;
 
     /**
      * LDAP Server charset
@@ -98,7 +98,7 @@ class LdapUtility
     /**
      * @var bool
      */
-    protected $hasPagination;
+    protected $hasPagination = false;
 
     /**
      * @var string
