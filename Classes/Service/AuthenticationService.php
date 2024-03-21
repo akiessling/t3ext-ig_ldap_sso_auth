@@ -229,19 +229,6 @@ class AuthenticationService extends \TYPO3\CMS\Core\Authentication\Authenticatio
                     ]);
                 $status = static::STATUS_AUTHENTICATION_FAILURE_BREAK;
             }
-
-            // Checking the domain (lockToDomain)
-            if ($status && !empty($user['lockToDomain']) && $user['lockToDomain'] !== $this->authInfo['HTTP_HOST']) {
-
-                // Lock domain didn't match, so error:
-				// @extensionScannerIgnoreLine
-                static::getLogger()->error(sprintf('Locked domain "%s" did not match "%s"', $user['lockToDomain'], $this->authInfo['HTTP_HOST']), [
-                    'username' => $user[$this->db_user['username_column']],
-                    'remote' => sprintf('%s (%s)', $this->authInfo['REMOTE_ADDR'], $this->authInfo['REMOTE_HOST']),
-                ]);
-
-                $status = static::STATUS_AUTHENTICATION_FAILURE_BREAK;
-            }
         }
 
         return $status;
